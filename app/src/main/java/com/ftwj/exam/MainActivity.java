@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
+import com.ftwj.exam.adapter.SpinnerAdapter;
 import com.ftwj.exam.bean.SubjectBean;
 import com.ftwj.exam.net.HttpCallback;
 import com.ftwj.exam.net.HttpClient;
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int subid;
 
-    private ArrayAdapter<String> adapter;
+    private SpinnerAdapter adapter;
 
     /**
      * 进度条对话框
@@ -79,8 +80,6 @@ public class MainActivity extends AppCompatActivity {
                 //开始答题
                 Intent intent = new Intent(MainActivity.this, ExamActivity.class);
                 intent.putExtra("subId", subid);
-                intent.putExtra("text", "你好");
-                Log.i(TAG, "onClick: " + subid);
                 startActivity(intent);
             }
         });
@@ -100,13 +99,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(SubjectBean response, int id) {
                 mProgressDialog.dismiss();
+
                 if (response.getCode() == 200) {
+                    List<SubjectBean.DataBean> data = response.getData();
                     for (int i = 0; i < response.getData().size(); i++) {
-                        subNames.add(response.getData().get(i).getName());
                         subIds.add(response.getData().get(i).getId());
                     }
-                    adapter = new ArrayAdapter<String>(MainActivity.this,
-                            android.R.layout.simple_list_item_1, subNames);
+                    adapter = new SpinnerAdapter(MainActivity.this,data);
                     spinner.setAdapter(adapter);
                 } else {
                     Log.i(TAG, "onError: 失败");

@@ -51,7 +51,7 @@ public class HttpClient {
 
 
         //GET_CONTENT_URL
-        OkHttpUtils.get()
+        OkHttpUtils.post()
                 .url(Constant.GET_CONTENT_URL)
                 .addParams("subid", String.valueOf(subid))
                 .build()
@@ -78,7 +78,7 @@ public class HttpClient {
      * @param callback
      */
     public void getSubjects( final HttpCallback<SubjectBean> callback) {
-        OkHttpUtils.get()
+        OkHttpUtils.post()
                 .url(Constant.GET_SUBJECT_URL)
                 .build()
                 .execute(new StringCallback() {
@@ -104,7 +104,7 @@ public class HttpClient {
      * @param callback
      */
     public void submit( String result,final HttpCallback<ResultBean> callback) {
-        OkHttpUtils.get()
+        OkHttpUtils.post()
                 .url(Constant.GET_AUBMIT_URL)
                 .addParams("params",result)
                 .build()
